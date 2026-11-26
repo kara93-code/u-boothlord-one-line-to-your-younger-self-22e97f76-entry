@@ -9,11 +9,9 @@ import os
 import sys
 from pathlib import Path
 
-LINE = (
-    "Don't throw away the letters Grandma wrote you — in twenty years "
-    "you'll pay a stranger to translate the handwriting you stopped "
-    "reading at sixteen."
-)
+OPENING = "Keep the dented blue bike — the new one gets stolen in a week,"
+CLOSING = "and the dented one is the last thing your dad ever fixed for you."
+LINE = OPENING + " " + CLOSING
 
 
 def main() -> int:
@@ -27,6 +25,12 @@ def main() -> int:
         return 1
     if chars < 1 or chars > 200:
         print(f"entry is {chars} characters, must be 1-200", file=sys.stderr)
+        return 1
+    # The line must be told to the younger self, in the second person:
+    # a slogan addressed to nobody loses to a line actually told to you.
+    lowered = text.lower()
+    if "you" not in lowered and "your" not in lowered:
+        print("entry must address the younger self (you/your)", file=sys.stderr)
         return 1
     out_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "output"))
     out_dir.mkdir(parents=True, exist_ok=True)
